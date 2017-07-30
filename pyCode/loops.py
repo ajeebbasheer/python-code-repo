@@ -4,3 +4,5 @@ for i in l:
 	print i
 for j in l.iteritems():
 	print j
+for k in l.keys():
+	print  k
