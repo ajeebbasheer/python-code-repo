@@ -3,7 +3,7 @@ import os
 
 todo_list = "todo.txt"
 if (len(sys.argv) == 1):
-	print "Error. "
+	print ("Error!..Use -h for help" )
 else:
 	task = ''
 	for i in range(2,len(sys.argv)):
@@ -14,13 +14,13 @@ else:
 		if (str(sys.argv[1]) == '-a'):
 			try:
 				f.write(task)
-				print "Task Added sucessfully!!\n"
+				print ("Task Added sucessfully!!\n")
 			except:
-				print "something went wrong"
+				print ("something went wrong")
 	if (str(sys.argv[1]) == '-v'):
 		with open(todo_list,'r') as f:
 			for j in f:
-				print j
+				print (j)
 	
 	if (str(sys.argv[1]) == '-d'):
 		with open(todo_list,'r') as f:
@@ -29,6 +29,9 @@ else:
 			for i in list:
 				if i != num[0:1]:
 					f.write(i)
+	if (str(sys.argv[1]) == '-h'):
+		print ("Commands:-\n-a: add\n-v: view\n-h: help\n-d: delete\n-u:update\n-tag: add tags")
+
 #create TODO App
 # option will be
 # -a for add
@@ -40,3 +43,5 @@ else:
 # -v version
 # -tag  office, Home, Sport 
 # https://etherpad.openstack.org/p/python_todo
+# IMPROVMENT: need to replace sys module with argparse
+# http://pymbook.readthedocs.io
