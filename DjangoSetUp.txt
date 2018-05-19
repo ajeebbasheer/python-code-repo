@@ -13,7 +13,7 @@
 Django==1.11.2
 pytz==2018.4
 
-7. Create a django Project
+7. Create a django Project - Here django_app represents the virtual environment and my_app is the actual website.
       (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app$ django-admin startproject my_app
       (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app$ ls
       my_app
