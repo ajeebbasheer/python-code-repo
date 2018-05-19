@@ -52,4 +52,20 @@ Superuser created successfully.
 
 
 
-      
+TO ADD THE APP TO GITHUB
+
+create a repo 'website'
+/PycharmProjects/django_app$ 
+  126  git init
+  127  git remote add origin https://github.com/ajeebbasheer/website.git
+  128  git add .
+  129  git commmit 
+  130  git status
+  131  git commit -m 'first'
+  132  git config --global user.name 
+  133  git config --global user.email "ajeebbasheer@github.com"
+  134  git config --global user.name "ajeeb"
+  135  git commit -m 'first'
+  136  git push -u origin master
+  137  ls
+  138  history
