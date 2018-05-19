@@ -30,7 +30,17 @@ Django version 1.11.2, using settings 'my_app.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 
-9. now check http://127.0.0.1:8000/ in browser.
+keep this open and start another terminal.
+
+9. now check http://127.0.0.1:8000/ in browser. 
+
+10. To add a new app. 
+(django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app$ python3.6 manage.py startapp firstapp
+(django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app$ ls
+db.sqlite3  firstapp  manage.py  my_app
+(django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app$ cd firstapp/
+(django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app/firstapp$ ls
+admin.py  apps.py  __init__.py  migrations  models.py  tests.py  views.py
 
 
 
