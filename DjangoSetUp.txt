@@ -1,1 +1,13 @@
+1. Installed Pycharm.
+2. Installed virtual env and virtualenvwrapper
+3. In .bashrc added the following lines so that everytime a new project get created, the default path to add venv will be this.
+      export WORKON_HOME=$HOME/.virtualenvs
+      source /usr/local/bin/virtualenvwrapper.sh
+4. Open pycharm. it will prompt for new project if there is no existing project. when you create new project, create venv along.
+   by default it will choose the WORKON_HOME path above. this is because workon is a command used by venv wrapper to switch using
+   different envs. When you submit, you can see the venv created in the above path $HOME/.virtualenvs.
+5. Install pip in the venv. Then install Django using 'pip install django==1.11.2'. You can see everything get installed exclusivly 
+   in our venv.
 
+      
+      
