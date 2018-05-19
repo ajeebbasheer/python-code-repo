@@ -9,5 +9,30 @@
 5. Install pip in the venv. Then install Django using 'pip install django==1.11.2'. You can see everything get installed exclusivly 
    in our venv.
 
-      
+6. (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app$ pip freeze
+Django==1.11.2
+pytz==2018.4
+
+7. Create a django Project
+      (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app$ django-admin startproject my_app
+      (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app$ ls
+      my_app
+      (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app$ cd my_app/
+      (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app$ ls
+      manage.py  my_app
+8.
+(django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app$ python3.6 manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 19, 2018 - 18:42:24
+Django version 1.11.2, using settings 'my_app.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+9. now check http://127.0.0.1:8000/ in browser.
+
+
+
+
       
