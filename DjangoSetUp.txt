@@ -42,6 +42,13 @@ db.sqlite3  firstapp  manage.py  my_app
 (django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app/firstapp$ ls
 admin.py  apps.py  __init__.py  migrations  models.py  tests.py  views.py
 
+10. http://127.0.0.1:8000/admin/  - Create user name and passwd as shown below
+(django_app) ajeeb@ajeeb-Lenovo-G450:~/PycharmProjects/django_app/my_app$ python3.6 manage.py createsuperuser
+Username (leave blank to use 'ajeeb'):      
+Email address: to.ajeeb@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
 
 
 
