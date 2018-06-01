@@ -1,4 +1,3 @@
-$ cat open.py
 import os, sys
 import re
 
@@ -64,7 +63,7 @@ def openFile (qual_dict):
             if (re.search (r'.*.vpl$', file_name, re.IGNORECASE )):
                 try:
                     reg = r'.*report.*title.*\'(.*)\''
-                    reg2 = r'.*title.*[\'\"](.*)[\'\"]'
+                    reg2 = r'.*title.*?[\'\"](.*)[\'\"]'
 
                     try:
                         with open (v, 'r') as file:
@@ -104,7 +103,7 @@ def openFile (qual_dict):
         print ("No matches found! ('open -h' for HELP)")
         sys.exit()
     if (count == 1):
-        os.system('vi ' + qual_dict[1])
+        os.system('vim ' + qual_dict[1])
         print ('last opened: ' + qual_dict[int(1)])
     else:
         try:
@@ -113,7 +112,7 @@ def openFile (qual_dict):
                 print ('Invalid Choice')
             else:
                 try:
-                    os.system('vi ' + qual_dict[int(n)])
+                    os.system('vim ' + qual_dict[int(n)])
                     print ('last opened: ' + qual_dict[int(n)])
                 except:
                     pass
@@ -135,6 +134,8 @@ if __name__ == '__main__':
         usageInfo()
     else:
         file = str(sys.argv[1])
+        if (re.search(r'.*/.*', file)):
+            d, file = os.path.split(file)
         path = os.path.expandvars('$GPSRC')
         pat = re.compile(r'/dvlp/src_(.*)/gpsrc')
         gp_version = pat.match(path).groups()[0]
