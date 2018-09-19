@@ -40,3 +40,44 @@ if __name__ == '__main__':
 
 
     
+"""
+import re
+
+if __name__ == '__main__':
+    numOutputs = int(input(''))
+    numInputs  = int(input(''))
+    
+    tweetsDict = {}
+    print ('enter {} tweets..'.format(numInputs))
+    
+    for i in range(0, numInputs):
+        tweet = raw_input("")
+        try:
+            name, tweetId = re.search(r'^(\w+)\s+tweet_id_(\d+)', tweet, re.IGNORECASE).groups()
+            if (tweetsDict.get(name)):
+                tweetsDict[name] += 1
+            else:
+                tweetsDict[name] = 1
+        except:
+            print ('entry #{} is in incorrect format!'.format(i))
+            pass
+
+    print (tweetsDict)
+    sorted_list = sorted(tweetsDict.items(), key=lambda x: x[1], reverse = True)
+    print(sorted_list)
+    
+    if (numOutputs > len(sorted_list)):
+        print('input not correct')
+    i = 0
+
+    while(i < numOutputs):
+        print (i, numOutputs)
+        n = sorted_list[i][1]
+        print(n)
+        numOutputs += len ([k for k,v in tweetsDict.items() if v == n]) - 1
+        print (i, numOutputs)
+        i +=1
+        
+"""
+    
+    
