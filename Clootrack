@@ -1,0 +1,33 @@
+def processInput():
+    affected_cells_count = 1
+    affected_cells = {}
+    stack = []
+    seconds = 0
+    n , m = 6, 5
+    r, c = 2, 2
+    affected_cells[(r,c)] = 1
+    num_of_cells = n * m
+    stack.append((r,c))
+    while(len(stack) > 0):
+        r, c = stack.pop(0)
+        print (r,c)
+        done = 1
+        neighbours = lambda x,y: [(x-1, y-1), (x-1,y+1), (x+1,y-1), (x+1,y+1), (x,y-1), (x-1,y), (x+1,y), (x,y+1)]
+        valid_neighbours_t = [(x,y) for x,y in neighbours(r,c) if x <= n and y <=m and x>0 and y>0]
+        valid_neighbours = [(x,y) for x,y in valid_neighbours_t if affected_cells.get((x,y)) != 1]
+        print (valid_neighbours)
+        for x in valid_neighbours:
+            if (done):
+                seconds +=1
+                done = 0        
+            if affected_cells_count >= num_of_cells:
+                break;
+            if affected_cells.get(x) != 1:
+                affected_cells[x] = 1
+                stack.append(x)
+                affected_cells_count += 1
+                
+    print(seconds)           
+    
+if __name__ == '__main__':
+    processInput()
