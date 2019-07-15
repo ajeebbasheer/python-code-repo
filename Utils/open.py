@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+
+# 06/06/2018: Initial coding for new module.
+
 import os, sys, re
-import argparse, pickle
-import subprocess, shlex
+import argparse
 
 #+++++++++++++++++++++++++++++++++++++++++++#
 #         GLOBAL VARIABLES                  #
@@ -16,6 +18,7 @@ dir_dict        = { 1:'vpl', 2:'rdl', 3:'inc', 4:'fsp', 5:'all', 6:'src' }
 dir_tup         = ( 'rdl', 'inc', 'vpl', 'all', 'src' )
 extentions      = ( '_ins.for', '_ins.h', '_ins.hpp', '_ins.inc',
                     '_ent.inc', '_ent.for', '_ent.h', '_ent.hpp' )
+
 
 #+++++++++++++++++++++++++++++++++++++++++++#
 #         PARSEARGS                         #
@@ -170,7 +173,7 @@ def createMatchDict(args, fname):
         if (args.src):
             base_dirs = [x for x in os.listdir(dvlp_path) if os.path.isdir(dvlp_path + '/'+ x)]
             src_paths = map (lambda x: x + '/src', base_dirs)
-            src_full_paths = map (lambda x: dvlp_path + '/'+ x )
+            src_full_paths = map (lambda x: dvlp_path + '/'+ x, src_paths )
             for v in src_full_paths:
                 temp_dict = getMatchDict (v, fname, args)
                 match_dict = dict(match_dict , **temp_dict)
@@ -184,7 +187,7 @@ def openLocal (repo_path):
     """
     Open local copy of file. If doesn't exists, create and open.
     """
-    user = os.path.expandvars('$USER')
+    global user 
     local_path = '/home/' + user + repo_path
     if (os.path.isfile(local_path)):
         os.system('vim ' + local_path)
@@ -228,6 +231,8 @@ def openFile (qual_dict, args):
     """
 
     global msg_flag
+    match_cnt = 0
+    stop_point = 30
 
     if args.release:
         gp_version = args.release
@@ -241,9 +246,23 @@ def openFile (qual_dict, args):
             title = ''
             found = 1
             path, fnamename = os.path.split(qual_dict[k])
-           
+            match_cnt += 1
+            if (match_cnt > stop_point ):
+                stop_point *= 4
+                n = raw_input("\nmore matches. Press 'q' to stop, ENTER to continue search: ")
+                if (n.lower() == 'q' or n.lower() == 'quit'):
+                    break; #os._exit(1) 
+                else:
+                    pass
+            else:
+                pass          
+ 
             if (args.path):
-                print('%-3d--- %-90s' %(k, qual_dict[k])) 
+                if (args.local):
+                    full_path = '/home/' + user + qual_dict[k]
+                else:
+                    full_path = qual_dict[k] 
+                print('%-3d--- %-90s' %(k, full_path))
             elif (re.search (r'.*.vpl$', fnamename, re.IGNORECASE )):
                 try:
                     reg = r'.*report.*title.*\'(.*)\''
@@ -291,51 +310,52 @@ def openFile (qual_dict, args):
             msg = '.'*12 + ' No luck !!!'
         print (msg)
         return 1
-    if (count == 1):
-        if (args.local):
-            if args.rdl_details:
-                print('remove local option (-l) and retry')
+
+    if (not args.path):
+        if (count == 1):
+            if (args.local):
+                if args.rdl_details:
+                    print('remove local option (-l) and retry')
+                else:
+                    openLocal(qual_dict[1])
             else:
-                openLocal(qual_dict[1])
+                if (not args.rdl_details):
+                    os.system('vim ' + qual_dict[1])
+                    print ('last opened: ' + qual_dict[int(1)])
+                else:
+                    rname, extn = os.path.splitext(qual_dict[1])
+                    cmd = '/dvlp/src_' + gp_version + '/gpsrc/src/com/gp_rdl ' + ' -t=' + p1 + ' -b=no'
+                    print(cmd)
+                    os.system('vim ' + rname)
+                    print ('last opened: ' + rname) 
         else:
-            if (not args.rdl_details):
-                os.system('vim ' + qual_dict[1])
-                print ('last opened: ' + qual_dict[int(1)])
-            else:
-                rname, extn = os.path.splitext(qual_dict[1])
-                cmd = '/dvlp/src_' + gp_version + '/gpsrc/src/com/gp_rdl ' + ' -t=' + p1 + ' -b=no'
-                print(cmd)
-                subprocess.call(shlex.split(str1))
-                os.system('vim ' + rname)
-                print ('last opened: ' + rname) 
-    else:
-        try:
-            n = raw_input('which one? [Press ENTER to exit]\n\t :')
-            if (int(n) > count or int(n) <= 0):
-                print ('Invalid Choice')
-            else:
-                try:
-                    if (args.local):
-                        openLocal(qual_dict[int(n)])
-                    else:
-                        if (not args.rdl_details):
-                            os.system('vim ' + qual_dict[int(n)])
-                            print ('last opened: ' + qual_dict[int(n)])
+            try:
+                n = raw_input('which one? [Press ENTER to exit]\n\t :')
+                if (int(n) > count or int(n) <= 0):
+                    print ('Invalid Choice')
+                else:
+                    try:
+                        if (args.local):
+                            openLocal(qual_dict[int(n)])
                         else:
+                            if (not args.rdl_details):
+                                os.system('vim ' + qual_dict[int(n)])
+                                print ('last opened: ' + qual_dict[int(n)])
+                            else:
 
-                            path_, fn = os.path.split(qual_dict[int(n)])
-                            rname, extn = os.path.splitext(fn)
-                            cmd = '/dvlp/src_' + gp_version + '/gpsrc/src/com/gp_rdl ' + rname + ' -t=' + rname + ' -b=no'
-                            subprocess.call(shlex.split(str1))
-                            os.system('vim ' + rname)
-                            print ('last opened:' )# + rname) 
-                except:
-                    pass
-        except:
-            pass
-        finally:
-            qual_dict.clear()
-
+                                path_, fn = os.path.split(qual_dict[int(n)])
+                                rname, extn = os.path.splitext(fn)
+                                cmd = '/dvlp/src_' + gp_version + '/gpsrc/src/com/gp_rdl ' + rname + ' -t=' + rname + ' -b=no'
+                                os.system('vim ' + rname)
+                                print ('last opened:' )# + rname) 
+                    except:
+                        pass
+            except:
+                pass
+            finally:
+                qual_dict.clear()
+    else:
+        pass
     return None
 
 
@@ -347,6 +367,7 @@ if __name__ == '__main__':
     num_args = len(sys.argv)
     args = parseArgs()
     fname = args.fnamename
+    user = os.path.expandvars('$USER')
 
     if (re.search(r'(^\d{2})\.(\d{3})(\.\d{0,3})?$', fname)):
         fname = ''.join(re.search(r'(^\d{2})\.(\d{3})(\.\d{0,3})?$',fname).groups()[:2])
@@ -368,10 +389,15 @@ if __name__ == '__main__':
         gp_version = args.release
     else:
         gp_version = os.path.expandvars ('$CURR_MAP')
-    user = os.path.expandvars('$USER')
-    
+   
+    specific_search = args.vpl or args.rdl or args.inc or args.fsp or args.src
 
-    if num_args == 2 or (num_args ==3 and (args.path or args.local or args.types or args.release)):
+    if (specific_search or args.all):
+        createMatchDict(args, fname)
+        msg_flag = 1
+        openFile (match_dict, args) 
+
+    else:
         src_path = path + '/src/'
         match_dict = getMatchDict (src_path, fname, args)
         status = openFile (match_dict, args)
@@ -393,11 +419,7 @@ if __name__ == '__main__':
                         progress_bar = 1
                         createMatchDict(args, fname)
                     else:
-                        sys.exit()
+                        os._exit(1)
                 except:
                     print ('Exception in MAIN')
             openFile (match_dict, args)
-    else:
-        createMatchDict(args, fname)
-        msg_flag = 1
-        openFile (match_dict, args)
