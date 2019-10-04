@@ -156,3 +156,40 @@ class Daemon:
         It will be called after the process has been daemonized by
         start() or restart().
         """
+
+        
+def get_arg_parser():
+    """
+    Argument parser for the command-line entry.
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--command",
+        choices=("start", "restart", "stop"),
+        help="Deamon management command.",
+    )
+    return parser
+
+class MyDaemon(Daemon):
+    def run(self):
+        while True:
+            sleep(10)
+            processing_logic()
+            
+def main():
+    print("Starting")
+    args = get_arg_parser().parse_args()
+    print(f"Command: {args.command}")
+    
+    daemon = FastDaemon(config.PID_FILE_PATH)
+    
+    if (args.command == "start"):
+        daemon.start()
+    elif (args.command == "stop"):
+        daemon.stop()
+    elif (args.command == "restart"):
+        daemon.restart()
+    else:
+        logger.error("Command not recognized")
+
+if __name__ == "__main__":
+    main()            
