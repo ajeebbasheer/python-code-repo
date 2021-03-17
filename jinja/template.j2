@@ -1,0 +1,28 @@
+{
+	create_instance: {
+	server: {
+		name: {{instance_name}},
+		max_count: 1,
+		min_count: 1,
+		networks: [
+		{
+			uuid: {{network_uuid}}
+		}
+		],
+		security_groups: [
+		{
+			name: {{security_group}}
+		}
+		],
+			key_name: {{key_name}}
+		}
+	},
+	create_flavor: {
+		flavor: {
+			name: {{flavor_name}},
+			ram: 2048,
+			vcpus: 1,
+			disk: 10
+		}
+	}
+}
