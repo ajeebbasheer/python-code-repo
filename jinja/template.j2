@@ -1,28 +1,36 @@
 {
-	create_instance: {
-	server: {
-		name: {{instance_name}},
-		max_count: 1,
-		min_count: 1,
-		networks: [
-		{
-			uuid: {{network_uuid}}
-		}
-		],
-		security_groups: [
-		{
-			name: {{security_group}}
-		}
-		],
-			key_name: {{key_name}}
-		}
-	},
-	create_flavor: {
-		flavor: {
-			name: {{flavor_name}},
-			ram: 2048,
-			vcpus: 1,
-			disk: 10
-		}
-	}
+    "create_instance": {
+        "server": {
+            "name": "{{instance_name}}",
+            "imageRef": "{{image_id}}",
+            "flavorRef": "",
+            "max_count": 1,
+            "min_count": 1,
+            "networks": [
+                {
+                    "uuid": "{{network_id}}"
+                }
+            ],
+            "security_groups": [
+                {
+                    "name": "{{security_group}}"
+                }
+            ],
+            "key_name": "{{key_name}}"
+        }
+    },
+    "create_flavor": {
+        "flavor": {
+            "name": "{{flavor_name}}",
+            "ram": 2048,
+            "vcpus": 1,
+            "disk": 10
+        }
+    },
+    "create_aggregate": {
+        "aggregate": {
+            "name": "{{host_aggregate_name}}",
+            "availability_zone": "nova"
+        }
+    }
 }
