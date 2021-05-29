@@ -30,7 +30,7 @@ class LinkedList:
             return
         new_node.set_next(self.head)
         self.head = new_node
-        self.traverse()
+        # self.traverse()
     
     def insert_at_end(self, item):
         new_node = Node(item)
@@ -125,7 +125,6 @@ class LinkedList:
         prev.set_next(curr.get_next())
         self.traverse()
 
-        
     def traverse(self):
         node = self.head
         print(f"List Length: {self.length}")
