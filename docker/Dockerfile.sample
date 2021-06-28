@@ -1,0 +1,30 @@
+FROM ubuntu:20.04
+
+LABEL maintainer="Ajeeb.Marakkarakathbasheer@centurylink.com"
+
+RUN apt update && apt upgrade -y
+
+# This is needed, as otherwise docker gets stuck in the image building process
+RUN mkdir /etc/test_psb && ln -fs /usr/share/zoneinfo/America/Denver /etc/localtime && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+
+# APT packages
+RUN apt install -y vim wget iputils-ping git gcc python3-pip bind9-utils ansible jq tree openvpn expect sshpass python2
+
+# PIP3 packages
+RUN pip3 install --upgrade pip
+RUN pip3 install 'requests==2.23.0' 'six==1.15.0' prettytable rally-openstack
+
+WORKDIR /opt
+
+# Copy files
+COPY creds/ /etc/test_psb/
+# COPY PSB-API-Testing/configure/cmd_line /opt/
+
+RUN mkdir /etc/certification1
+COPY certification1/ /etc/certification1/
+
+# Setup Rally
+
+RUN rally db create && rally deployment create --file=/etc/test_psb/virtz01-os1.json --name=virtz01-os1
+
+# ENTRYPOINT ["/bin/bash", "-c", "./cmd_line \"$@\"", "--"]
