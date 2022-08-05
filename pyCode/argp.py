@@ -1,20 +1,24 @@
 import argparse
+from ast import arguments
+from turtle import position
 
-ap = argparse.ArgumentParser()
-ap.add_argument('-a', nargs=2)
-ap.add_argument('-b', nargs=3)
-ap.add_argument('-c', nargs=1)
+TEST_ARGS = 'mydoc.txt -H ExitHandler -t tag1 tag2 -k error exception warn'
+TEST_ARGS2 = 'mydoc.txt -k error exception warn debug log'
 
-opts = ap.parse_args('-a A1 A2 -b B1 B2 B3 -c C1'.split())
+def parseArgs(arg_list=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help = "log file") # positional args
+    parser.add_argument("-H", "--handler" , help = "log file") # optional args
+    parser.add_argument("-t", "--tag", help = "tags to search", nargs=2)
+    parser.add_argument("-k", "--keyword", help = "keywords to search",
+                        nargs='*')
+    return parser.parse_args(arg_list.split())
 
-print(opts)
-print(opts.a)
-print(opts.b)
-print(opts.c)
-
-opts = ap.parse_args([])
-if not any([opts.a, opts.b, opts.c]):
-    ap.print_usage()
-    quit()
-
-print("This won't run.")
+if __name__ == '__main__':
+    args = parseArgs(TEST_ARGS)
+    print(args.file)
+    print(args.handler)
+    print(args.tag)
+    print(args.keyword)
+    args = parseArgs(TEST_ARGS2)
+    print(args.keyword)
